@@ -1,4 +1,4 @@
-import faker
+import faker  # pyright: ignore[reportMissingImports]
 import psycopg2
 import random 
 from datetime import datetime
@@ -10,7 +10,7 @@ def generate_transaction():
 
     return {
         "transaction_id": fake.uuid4(),
-        "user_id": user["user_id"],
+        "user_id": user["username"],
         "timestamp": datetime.utcnow().timestamp(),
         "amount": round(random.uniform(10, 1000), 2),
         "currency": random.choice(["USD", "GBP"]),
@@ -40,6 +40,7 @@ def create_table(conn):
             ip_address VARCHAR(50),
             voucher_code VARCHAR(50),
             affiliate_id VARCHAR(255)
+        )
         """
     )
 
@@ -78,5 +79,6 @@ if __name__ == "__main__":
             transction["affiliate_id"]
         )
     )
+    print("Transaction inserted successfully")
     cur.close()
     conn.commit()
